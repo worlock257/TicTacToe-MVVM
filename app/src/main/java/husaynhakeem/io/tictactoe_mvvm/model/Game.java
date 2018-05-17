@@ -18,6 +18,7 @@ public class Game {
     public Cell[][] cells;
 
     public MutableLiveData<Player> winner = new MutableLiveData<>();
+    public MutableLiveData<Boolean> endGame = new MutableLiveData<>();
 
     public Game(String playerOne, String playerTwo) {
         cells = new Cell[BOARD_SIZE][BOARD_SIZE];
@@ -34,6 +35,7 @@ public class Game {
 
         if (isBoardFull()) {
             winner = null;
+            endGame.setValue(true);
             return true;
         }
 

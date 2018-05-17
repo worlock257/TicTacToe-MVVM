@@ -41,10 +41,15 @@ public class GameActivity extends AppCompatActivity {
         gameViewModel.init(player1, player2);
         activityGameBinding.setGameViewModel(gameViewModel);
         setUpOnGameEndListener();
+        setUpOnGameWinnerListener();
+    }
+
+    private void setUpOnGameWinnerListener() {
+        gameViewModel.getWinner().observe(this, this::onGameWinnerChanged);
     }
 
     private void setUpOnGameEndListener() {
-        gameViewModel.getWinner().observe(this, this::onGameWinnerChanged);
+        gameViewModel.isEndGame().observe(this, this::onGameEndChanged);
     }
 
     @VisibleForTesting
@@ -52,5 +57,13 @@ public class GameActivity extends AppCompatActivity {
         String winnerName = winner == null || isNullOrEmpty(winner.name) ? NO_WINNER : winner.name;
         GameEndDialog dialog = GameEndDialog.newInstance(this, winnerName);
         dialog.show(getSupportFragmentManager(), GAME_END_DIALOG_TAG);
+    }
+
+    @VisibleForTesting
+    public void onGameEndChanged(Boolean isGameFinished) {
+        if(isGameFinished){
+            GameEndDialog dialog = GameEndDialog.newInstance(this, getString(R.string.none_winner));
+            dialog.show(getSupportFragmentManager(), NO_WINNER);
+        }
     }
 }
