@@ -2,6 +2,7 @@ package husaynhakeem.io.tictactoe_mvvm.view;
 
 
 import android.app.Dialog;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 
 import husaynhakeem.io.tictactoe_mvvm.R;
+import husaynhakeem.io.tictactoe_mvvm.databinding.GameBeginDialogBinding;
 
 public class GameBeginDialog extends DialogFragment {
 
@@ -31,6 +33,10 @@ public class GameBeginDialog extends DialogFragment {
     private View rootView;
     private GameActivity activity;
 
+    GameBeginDialogBinding gameBeginDialogBinding;
+
+//    https://inthecheesefactory.com/blog/say-goodbye-to-findviewbyid-with-data-binding-library/en - Data Binding Manual
+
     public static GameBeginDialog newInstance(GameActivity activity) {
         GameBeginDialog dialog = new GameBeginDialog();
         dialog.activity = activity;
@@ -42,7 +48,7 @@ public class GameBeginDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         initViews();
         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setView(rootView)
+                .setView(gameBeginDialogBinding.getRoot())
                 .setTitle(R.string.game_dialog_title)
                 .setCancelable(false)
                 .setPositiveButton(R.string.done, null)
@@ -56,14 +62,18 @@ public class GameBeginDialog extends DialogFragment {
     }
 
     private void initViews() {
-        rootView = LayoutInflater.from(getContext())
-                .inflate(R.layout.game_begin_dialog, null, false);
+        gameBeginDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
+                R.layout.game_begin_dialog, null, false);
 
-        player1Layout = rootView.findViewById(R.id.layout_player1);
-        player2Layout = rootView.findViewById(R.id.layout_player2);
 
-        player1EditText = rootView.findViewById(R.id.et_player1);
-        player2EditText = rootView.findViewById(R.id.et_player2);
+//        rootView = LayoutInflater.from(getContext())
+//                .inflate(R.layout.game_begin_dialog, null, false);
+
+//        player1Layout = rootView.findViewById(R.id.layout_player1);
+  //      player2Layout = rootView.findViewById(R.id.layout_player2);
+
+    //    player1EditText = rootView.findViewById(R.id.et_player1);
+      //  player2EditText = rootView.findViewById(R.id.et_player2);
         addTextWatchers();
     }
 
