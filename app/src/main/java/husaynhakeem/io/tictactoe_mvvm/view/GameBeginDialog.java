@@ -21,21 +21,15 @@ import husaynhakeem.io.tictactoe_mvvm.databinding.GameBeginDialogBinding;
 
 public class GameBeginDialog extends DialogFragment {
 
-    private TextInputLayout player1Layout;
-    private TextInputLayout player2Layout;
-
-    private TextInputEditText player1EditText;
-    private TextInputEditText player2EditText;
-
     private String player1;
     private String player2;
 
-    private View rootView;
     private GameActivity activity;
 
     GameBeginDialogBinding gameBeginDialogBinding;
 
-//    https://inthecheesefactory.com/blog/say-goodbye-to-findviewbyid-with-data-binding-library/en - Data Binding Manual
+    // https://inthecheesefactory.com/blog/say-goodbye-to-findviewbyid-with-data-binding-library/en - Data Binding Manual
+    // https://mobikul.com/creating-custom-dialog-databinding/
 
     public static GameBeginDialog newInstance(GameActivity activity) {
         GameBeginDialog dialog = new GameBeginDialog();
@@ -64,16 +58,6 @@ public class GameBeginDialog extends DialogFragment {
     private void initViews() {
         gameBeginDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
                 R.layout.game_begin_dialog, null, false);
-
-
-//        rootView = LayoutInflater.from(getContext())
-//                .inflate(R.layout.game_begin_dialog, null, false);
-
-//        player1Layout = rootView.findViewById(R.id.layout_player1);
-  //      player2Layout = rootView.findViewById(R.id.layout_player2);
-
-    //    player1EditText = rootView.findViewById(R.id.et_player1);
-      //  player2EditText = rootView.findViewById(R.id.et_player2);
         addTextWatchers();
     }
 
@@ -85,7 +69,8 @@ public class GameBeginDialog extends DialogFragment {
     }
 
     private void onDoneClicked() {
-        if (isAValidName(player1Layout, player1) & isAValidName(player2Layout, player2)) {
+        if (isAValidName(gameBeginDialogBinding.layoutPlayer1, player1) &
+                isAValidName(gameBeginDialogBinding.layoutPlayer2, player2)) {
             activity.onPlayersSet(player1, player2);
             dismiss();
         }
@@ -110,7 +95,7 @@ public class GameBeginDialog extends DialogFragment {
     }
 
     private void addTextWatchers() {
-        player1EditText.addTextChangedListener(new TextWatcher() {
+        gameBeginDialogBinding.etPlayer1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -124,7 +109,7 @@ public class GameBeginDialog extends DialogFragment {
                 player1 = s.toString();
             }
         });
-        player2EditText.addTextChangedListener(new TextWatcher() {
+        gameBeginDialogBinding.etPlayer2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
